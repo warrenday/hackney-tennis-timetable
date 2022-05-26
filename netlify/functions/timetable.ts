@@ -38,8 +38,7 @@ export const handler: Handler = async (event, context) => {
       config.places.map(async (place) => {
         const timetableForVenue = await fetchWeeklyTimetableForVenue(place.id);
         return {
-          id: place.id,
-          name: place.name,
+          ...place,
           timetable: timetableForVenue,
         };
       })
