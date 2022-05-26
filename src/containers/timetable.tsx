@@ -15,7 +15,7 @@ import { useMemo } from "react";
 import { useNextDays } from "../hooks/useNextDays";
 import { IVenueTimetable, useVenueTimetables } from "../hooks/useTimetable";
 
-const validHours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+const validHours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 
 const useFlatTimetable = (
   venues: IVenueTimetable[]
@@ -73,7 +73,18 @@ const Venues = ({
   date: Date;
   hour: number;
 }) => {
-  const datetime = setHours(date, hour).toISOString();
+  // When setting a datetime to find the correct venues the hours will
+  // set a different time than the hour in the server response due to
+  // local timezones.
+  //
+  // For example setting an hour of 21 may give
+  // 2022-05-29T20:00:00.000Z
+  // We offset this because we don't care about the timezone
+  // we just want the exact hour as given.
+  const timezoneOffsetHours = date.getTimezoneOffset() / 60;
+  const trueHour = hour - timezoneOffsetHours;
+  const datetime = setHours(date, trueHour).toISOString();
+
   const timetable = useFlatTimetable(venues);
   const venueIds: string[] = timetable[datetime] || [];
 
@@ -97,7 +108,7 @@ const Venues = ({
 
 export const Timetable = () => {
   const venues = useVenueTimetables();
-  const nextSevenDays = useNextDays(7);
+  const nextSevenDays = useNextDays(8);
 
   return (
     <TableContainer>
