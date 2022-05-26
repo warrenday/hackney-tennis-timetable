@@ -3,7 +3,7 @@ import { Timetable } from "./containers/timetable";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Box padding="20px">
+    <Box paddingX="0" paddingY="20px">
       <Timetable />
     </Box>
   </ChakraProvider>
