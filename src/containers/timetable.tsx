@@ -114,9 +114,9 @@ export const Timetable = () => {
     <TableContainer>
       <Table size="sm">
         <TableCaption>Hackney Tennis Full Timetable</TableCaption>
-        <Thead>
+        <Thead position="sticky" top={0}>
           <Tr>
-            <Th>Times</Th>
+            <Th />
             {nextSevenDays.map((date) => {
               return <Th key={date.toString()}>{format(date, "ddd Do")}</Th>;
             })}
@@ -124,14 +124,17 @@ export const Timetable = () => {
         </Thead>
         <Tbody>
           {validHours.map((hour) => {
+            const background = hour % 2 !== 0 ? "gray.100" : "white";
             return (
               <Tr
                 key={hour}
                 transition="0.1s"
-                background={hour % 2 !== 0 ? "gray.100" : "white"}
+                background={background}
                 _hover={{ background: "blue.100 !important" }}
               >
-                <Td>{hour}</Td>
+                <Td position="sticky" left="0">
+                  {hour}
+                </Td>
                 {nextSevenDays.map((date) => {
                   return (
                     <Td key={date.toISOString()} experimental_spaceX="1">
