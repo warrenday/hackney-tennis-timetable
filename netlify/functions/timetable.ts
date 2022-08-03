@@ -7,14 +7,14 @@ const fetchWeeklyTimetableForVenue = async (
   venueId: string
 ): Promise<Date[]> => {
   const today = startOfToday();
-  const dates = Array.from(Array(8).keys()).map((i) => {
+  const dates = Array.from(Array(9).keys()).map((i) => {
     return addDays(today, i);
   });
 
   const times = await Promise.all(
     dates.map(async (date) => {
       const timetable = await getTimetable(venueId, new Date(date));
-      return timetable.map((time) => {
+      return (timetable || []).map((time) => {
         return setHours(date, time);
       });
     })

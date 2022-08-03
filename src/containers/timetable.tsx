@@ -108,7 +108,7 @@ const Venues = ({
 
 export const Timetable = () => {
   const venues = useVenueTimetables();
-  const nextSevenDays = useNextDays(8);
+  const days = useNextDays(9);
 
   return (
     <TableContainer>
@@ -117,7 +117,7 @@ export const Timetable = () => {
         <Thead position="sticky" top={0}>
           <Tr>
             <Th />
-            {nextSevenDays.map((date) => {
+            {days.map((date) => {
               return <Th key={date.toString()}>{format(date, "ddd Do")}</Th>;
             })}
           </Tr>
@@ -135,7 +135,7 @@ export const Timetable = () => {
                 <Td position="sticky" left="0">
                   {hour}
                 </Td>
-                {nextSevenDays.map((date) => {
+                {days.map((date) => {
                   return (
                     <Td key={date.toISOString()} experimental_spaceX="1">
                       <Venues venues={venues} date={date} hour={hour} />
